@@ -23,13 +23,13 @@ const LoginPage=(props)=> {
 
     return (
       <>
-      <div className="my-bg">
-        <div className="login-card">
-            <FaSkyatlas className="logo"/>
-            <h3 className="my-title">Legendary Smart Monitor</h3>
-            <input ref={usernameRef} type="text" placeholder="Username..." className="input-format"/>
-            <input ref={passwordRef}type="password" placeholder="Password..." className="input-format"/>
-            <button className="my-button" onClick={validate}>Login</button>
+      <div className={style.myBg}>
+        <div className={style.logicCard}>
+            <FaSkyatlas className={style.logo}/>
+            <h3 className={style.myTitle}>Legendary Smart Monitor</h3>
+            <input ref={usernameRef} type="text" placeholder="Username..." className={style.inputFormat}/>
+            <input ref={passwordRef}type="password" placeholder="Password..." className={style.inputFormat}/>
+            <button className={style.myButton}onClick={validate}>Login</button>
         </div>
       </div>
       </>
