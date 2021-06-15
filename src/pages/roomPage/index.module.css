@@ -1,0 +1,11 @@
+.dashboardWrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0px;
+}
+.menuBar{
+  margin-top: 1vmin;
+  margin-bottom: 1vmin;
+  margin-right: 2vmin;
+}
