@@ -2,8 +2,11 @@ import { useState } from "react";
 import style from "./index.module.css"
 import {FaSkyatlas,FaTachometerAlt,FaDatabase,FaChartBar,FaDownload,FaSignInAlt,FaSignOutAlt} from "react-icons/fa"
 import { Link} from "react-router-dom";
-export default function SideNav(){
+export default function SideNav(props){
     const[state,setState]=useState({humidity:0,temperature:0});
+    const handleSignOut=()=>{
+       props.dispatch({type:false})
+    }
     return(
 <>
 <div className={style.sideNavWrapper}>
@@ -46,7 +49,8 @@ export default function SideNav(){
               <hr></hr>
               <div className="signout">
                 <hr></hr>
-                <div className={style.menuItemWrapper}>
+                <Link to="/">
+                <div className={style.menuItemWrapper} onClick={handleSignOut}>
                   <p>
                     <span>
                       <FaSignOutAlt className={style.menuItemImg}/>
@@ -54,6 +58,7 @@ export default function SideNav(){
                     Sign Out
                   </p>
                 </div>
+                </Link>
                 <hr></hr>
               </div>
             </div>

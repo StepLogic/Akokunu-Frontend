@@ -45,9 +45,10 @@ function reducer(state, action) {
 }
 
 const App=()=>{
+  const [state, dispatch] = useReducer(reducer, initialState);
   const content=<div className="row">
 <div className="col-lg-2">
-  <SideNav/>
+  <SideNav dispatch={dispatch}/>
 </div>
 <div className="col-lg-10">
   <Switch>
@@ -62,7 +63,7 @@ const App=()=>{
   </Switch>
 </div>
 </div>
-const [state, dispatch] = useReducer(reducer, initialState);
+
 const login=<LoginPage dispatch={dispatch}/>
     return (
       <Router>
