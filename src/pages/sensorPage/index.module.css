@@ -2,3 +2,15 @@
   margin-top: 1vmin;
   margin-right: 1vmin;
 }
+
+.mySensorContainer{
+
+}
+
+@media only screen and (min-width: 460px) {
+
+.mySensorContainer{
+  display: table-cell;
+}
+
+}

@@ -1,22 +1,13 @@
-.dashboardWrapper {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding: 0px;
-}
-
 .myBg {
   height: 100vh;
   width: 100vw;
-  background-image: url("../bg.jpg");
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 .logicCard {
-  height: 60%;
-  width: 30%;
+  height: 100%;
+  width: 100%;
   background-color: black;
   color: white;
   border-radius: 25px;
@@ -28,17 +19,31 @@
   margin-top: 0.5em;
   font-size: 5em;
   color: #3963a0;
+  opacity: 1;
+  animation-name: blink;
+  animation-duration: 2s;
+  animation-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
+  animation-iteration-count: infinite;
+}
+
+@keyframes blink {
+  0% {
+    color: white;
+    opacity: 0;
+  }
 }
 
 .myTitle {
   margin-top: 0.5em;
-  font-size: 2em;
+  text-align: center;
+  color: white;
+  font-size: 1em;
   font-family: "Open Sans", sans-serif;
   font-weight: bolder;
 }
 
 .inputFormat {
-  width: 70%;
+  width: 80%;
   text-align: center;
   margin-top: 2em;
   height: 4em;
@@ -49,15 +54,13 @@
   outline: none;
 }
 
-.inputFormat:hover {
+.inputFormat:focus {
   width: 75%;
   background-color: black;
   color: white;
   border: 4px solid white;
   font-family: "Open Sans", sans-serif;
 }
-
-
 
 .myButton {
   width: 70%;
@@ -71,11 +74,96 @@
 }
 
 .myButton:hover {
-  height: 5em;
-  font-weight: bolder;
+  transform: scale(1.2);
 }
 
 .myButton:active {
   height: 5em;
   font-weight: bolder;
+}
+@media only screen and (min-width: 460px) {
+  .myBg {
+    height: 100vh;
+    width: 100vw;
+    background-image: url("../bg.jpg");
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logicCard {
+    height: 600px;
+    width: 700px;
+    background-color: black;
+    color: white;
+    border-radius: 25px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    text-align: center;
+  }
+
+  .logo {
+    margin-top: 0.5em;
+    font-size: 5em;
+    color: #3963a0;
+    opacity: 1;
+    animation-name: blink;
+    animation-duration: 2s;
+    animation-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes blink {
+    0% {
+      color: white;
+      opacity: 0;
+    }
+  }
+
+  .myTitle {
+    margin-top: 0.5em;
+    font-size: 2em;
+    font-family: "Open Sans", sans-serif;
+    font-weight: bolder;
+  }
+
+  .inputFormat {
+    width: 70%;
+    text-align: center;
+    margin-top: 2em;
+    height: 4em;
+    border: 1px solid black;
+    font-family: "Open Sans", sans-serif;
+    border-radius: 5em;
+    transition: 500ms;
+    outline: none;
+  }
+
+  .inputFormat:hover {
+    width: 75%;
+    background-color: black;
+    color: white;
+    border: 4px solid white;
+    font-family: "Open Sans", sans-serif;
+  }
+
+  .myButton {
+    width: 70%;
+    margin-top: 2em;
+    height: 4em;
+    border-radius: 5em;
+    background-color: black;
+    color: white;
+    border: 2px solid white;
+    transition: 500ms;
+  }
+
+  .myButton:hover {
+    height: 5em;
+    font-weight: bolder;
+  }
+
+  .myButton:active {
+    height: 5em;
+    font-weight: bolder;
+  }
 }

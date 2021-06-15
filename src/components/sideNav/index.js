@@ -12,7 +12,7 @@ export default function SideNav(props){
 <div className={style.sideNavWrapper}>
               <div className={style.logoWrapper}>
                 <FaSkyatlas className={style.dashLogo} />
-                <h4 className={style.dashHeader}>Live Aku Monitor</h4>
+                <h4 className={style.dashHeader}>Live Aku<br></br> Monitor</h4>
               </div>
 
               <Link to="/">

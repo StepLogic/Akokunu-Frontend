@@ -1,5 +1,4 @@
 .logoWrapper {
-    margin-top: 0.5em;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -8,6 +7,7 @@
 .sideNavWrapper {
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   width: 100%;
+  padding-left: 1em;
   background-color: white;
   font-family: "Open Sans", sans-serif;
   height: 100%;
@@ -18,7 +18,8 @@ hr {
 }
 
 .dashHeader {
-  margin-top: 0.2em;
+  margin: 0.2em;
+  margin-right: 1em;
 }
 
 .dashLogo {
