@@ -23,9 +23,6 @@ const Dashboard = () => {
         <button className={style.customBtn} onClick={() => setShow(true)}>
           Add Room
         </button>
-        <button className={style.customBtn} onClick={() => setShow(true)}>
-          Add Sensor
-        </button>
       </div>
       <div className={style.dashboardWrapper}>
         {data ? (
