@@ -1,12 +1,12 @@
 .logoWrapper {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    
   }
 
 .sideNavWrapper {
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-  width: 100%;
+  width: 100vw;
   padding-left: 1em;
   background-color: white;
   font-family: "Open Sans", sans-serif;
@@ -51,5 +51,62 @@ hr {
 
 .signout {
   margin-top: 30rem;
+}
+
+@media only screen and (min-width: 460px) {
+}
+.logoWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.sideNavWrapper {
+box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+width: 100%;
+padding-left: 1em;
+background-color: white;
+font-family: "Open Sans", sans-serif;
+height: 100%;
+overflow: hidden;
+}
+hr {
+margin: 0px;
+}
+
+.dashHeader {
+margin: 0.2em;
+margin-right: 1em;
+}
+
+.dashLogo {
+font-size: 3em;
+margin: 0.5em;
+}
+
+.menuItemWrapper {
+color: black !important;
+padding-left: 1em;
+padding-top: 1.3em;
+padding-bottom: 0.5em;
+transition: 100ms;
+}
+
+.menuItemWrapper:hover {
+background-color: black;
+color: white !important;
+font-weight: 700;
+text-decoration: none !important;
+}
+
+.menuItemImg {
+font-size: 1.5em;
+margin-right: 0.5em;
+margin-bottom: 0.1em;
+color: #3963a0;
+}
+
+.signout {
+margin-top: 30rem;
 }
 
