@@ -16,7 +16,7 @@ export default function RoomCard(props){
                 }
                 axios.post(room_api_getAverageTemperature, body).then(res => {
                     setState(res.data);
-                });
+                }).catch(res=>{console.log(res)});
             }
     },[])
     return(

@@ -8,14 +8,14 @@ export default function SensorCard(props){
     useEffect(()=>{
         const body={
             identity:props.identity,
-            length:10
+            length:1
         };
 
         axios.post(sensor_api_getSensorData, body).then(res=> {
             setState(res.data)
-            console.log(props.identity)
+
             }
-        );
+        ).catch(res=>{console.log(res)});
 
     },[])
     return(

@@ -9,10 +9,10 @@ import {room_api_getAll} from "../../data/api";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 const Dashboard = () => {
   const [data,setData]=useState([{
-      roomName:"RoomTest"
+      name:"RoomTest"
   }]);
   useEffect(()=>{
-      axios.get(room_api_getAll).then(res=>setData(res.data));
+      axios.get(room_api_getAll).then(res=>setData(res.data)).catch(res=>{console.log(res)});
   },[])
   const [show, setShow] = useState(false);
   return (

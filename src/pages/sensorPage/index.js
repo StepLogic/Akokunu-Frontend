@@ -11,7 +11,7 @@ export default function SensorPage(){
   const { handle } = useParams();
   const location = useLocation() ;
     let history = useHistory();
-    const { identity } = location.state?location.state:history.push("/")
+    const {identity}  = location.state===undefined||null?null : location.state["identity"];
     let current_date="";
     let  date_info;
     let  minutes;
@@ -23,10 +23,12 @@ export default function SensorPage(){
 
     useEffect(()=>{
         try {
-            const body = {
-                identity: identity
-            };
-            axios.post(sensor_api_getSensorDataAll, body).then(res => setData(res.data));
+            if(!typeof identity===undefined||null){
+                const body = {
+                    identity: identity
+                };
+                axios.post(sensor_api_getSensorDataAll, body).then(res => setData(res.data)).catch(res=>{console.log(res)});
+            }
         }catch (e){
             alert("Backend Unavailable Contact Admin")
         }

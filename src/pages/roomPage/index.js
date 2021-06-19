@@ -9,16 +9,25 @@ import axios from "axios";
 import {room_api_getAll, room_api_getSensors} from "../../data/api";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 const RoomPage = () => {
-  const { handle } = useParams();
-  const location = useLocation();
+    const { handle } = useParams();
+    const location = useLocation();
     let history = useHistory();
-    const { name } = location.state?location.state:history.push("/")
+    const {name} = location.state===undefined||null? {name:null} :location.state;
   const [sensors,setSensors] = useState([{identity:"SensorTest"}]);
     useEffect(()=>{
-        const body={
-            name:name
-        };
-        axios.post(room_api_getSensors, body).then(res=>setSensors(res.data.sensors));
+        try {
+            if(!typeof name===undefined||null){
+            const body = {
+                name: name
+            };
+            axios.post(room_api_getSensors, body).then(res => {
+                setSensors(res.data.sensors)
+            }).catch(res=>{console.log(res)});
+
+            }
+        }catch (e){
+            alert("Backend Unavailable Contact Developer")
+        }
     },[])
   const [show, setShow] = useState(false);
   return (
