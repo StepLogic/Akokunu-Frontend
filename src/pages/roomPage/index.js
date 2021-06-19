@@ -15,15 +15,19 @@ const RoomPage = () => {
     const {name} = location.state===undefined||null? {name:null} :location.state;
   const [sensors,setSensors] = useState([{identity:"SensorTest"}]);
     useEffect(()=>{
-        try {
-            if(!typeof name===undefined||null){
-            const body = {
-                name: name
-            };
-            axios.post(room_api_getSensors, body).then(res => {
-                setSensors(res.data.sensors)
-            }).catch(res=>{console.log(res)});
 
+        try {
+            if(typeof name===undefined||null){
+                setSensors(JSON.parse(window.localStorage.getItem("sensors"))?JSON.parse(window.localStorage.getItem("sensors")):[{identity:"SensorTest"}]);
+
+            }else{
+                const body = {
+                    name: name
+                };
+                axios.post(room_api_getSensors, body).then(res => {
+                    setSensors(res.data.sensors)
+                    window.sessionStorage.setItem("sensors", JSON.stringify(res.data.sensors))
+                }).catch(res=>{console.log(res)});
             }
         }catch (e){
             alert("Backend Unavailable Contact Developer")

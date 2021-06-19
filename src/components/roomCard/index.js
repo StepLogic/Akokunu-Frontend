@@ -4,7 +4,8 @@ import {WiThermometer,WiHumidity} from "react-icons/wi";
 import axios from "axios";
 import {room_api_getAll, room_api_getAverageTemperature} from "../../data/api";
 export default function RoomCard(props){
-    const[state,setState]=useState({humidity:0,temperature:0});
+ 
+    const [state,setState]=useState({humidity:0,temperature:0});
     useEffect(()=>{
 
             if (props.room===null)
@@ -15,7 +16,7 @@ export default function RoomCard(props){
                     name: props.room
                 }
                 axios.post(room_api_getAverageTemperature, body).then(res => {
-                    setState(res.data);
+                    setState(res.data)
                 }).catch(res=>{console.log(res)});
             }
     },[])

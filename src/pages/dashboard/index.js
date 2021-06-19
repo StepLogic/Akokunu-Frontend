@@ -12,7 +12,10 @@ const Dashboard = () => {
       name:"RoomTest"
   }]);
   useEffect(()=>{
-      axios.get(room_api_getAll).then(res=>setData(res.data)).catch(res=>{console.log(res)});
+      axios.get(room_api_getAll).then(res=> {
+          setData(res.data)
+
+  }).catch(res=>{console.log(res)});
   },[])
   const [show, setShow] = useState(false);
   return (

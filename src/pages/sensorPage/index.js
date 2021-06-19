@@ -6,12 +6,13 @@ import {data} from "../../data/test";
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import GraphCard from "../../components/graphCard"
 import axios from "axios";
-import {room_api_getSensors, sensor_api_getSensorData, sensor_api_getSensorDataAll} from "../../data/api";
+import {sensor_api_getSensorDataAll} from "../../data/api";
+import {trigger} from "swr";
 export default function SensorPage(){
   const { handle } = useParams();
   const location = useLocation() ;
     let history = useHistory();
-    const {identity}  = location.state===undefined||null?null : location.state["identity"];
+    const {identity}  = location.state===undefined||null? {identity:null} : location.state;
     let current_date="";
     let  date_info;
     let  minutes;
@@ -19,20 +20,29 @@ export default function SensorPage(){
     let humidity = [];
     let temperature = [];
     let time_arr = [];
+    let trigger=[]
     const [data,setData] = useState([{humidity:0,temperature:0,timestamp:"2021-05-31T12:16:59.020Z"}])
 
     useEffect(()=>{
         try {
-            if(!typeof identity===undefined||null){
+            if(typeof identity===undefined||null){
+                setData(JSON.parse(window.localStorage.getItem("sensors-data"))?JSON.parse(window.localStorage.getItem("sensors")):[{humidity:0,temperature:0,timestamp:"2021-05-31T12:16:59.020Z"}]);
+            }else{
+                console.log("SensorData")
                 const body = {
                     identity: identity
                 };
-                axios.post(sensor_api_getSensorDataAll, body).then(res => setData(res.data)).catch(res=>{console.log(res)});
+                axios.post(sensor_api_getSensorDataAll, body).then(res => {
+                    setData(res.data);
+                    window.sessionStorage.setItem("sensor-data", JSON.stringify(res.data))
+                }).catch(res=>{console.log(res)});
             }
         }catch (e){
             alert("Backend Unavailable Contact Admin")
         }
     },[])
+
+
     const handler=(reading)=>{
         var date= new Date(reading.timestamp);
         time=date.getMinutes();
@@ -79,14 +89,16 @@ export default function SensorPage(){
                    {data?data.map((reading,i)=>{
                        handler(reading);
                        let row;
-                       if ((minutes % 10)===0){
+                       if ((minutes % 1)===0){
                            row= <tr key={"reading_"+i}>
                                <td>{date_info}</td>
                                <td>{minutes}</td>
                                <td>{reading.temperature}</td>
                                <td>{reading.humidity}</td>
                            </tr>
+
                        }
+
                        return row;}):<div>Loading</div>}
                     </tbody>
                 </table>

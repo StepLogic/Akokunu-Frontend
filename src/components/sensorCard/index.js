@@ -4,20 +4,20 @@ import {WiThermometer,WiHumidity} from "react-icons/wi";
 import axios from "axios";
 import {sensor_api_getSensorData} from "../../data/api";
 export default function SensorCard(props){
-    const[state,setState]=useState([]);
+
+    const [state,setState]=useState([]);
     useEffect(()=>{
         const body={
             identity:props.identity,
-            length:1
+            length:4
         };
-
         axios.post(sensor_api_getSensorData, body).then(res=> {
-            setState(res.data)
 
-            }
+            setState(res.data);
+        }
         ).catch(res=>{console.log(res)});
 
-    },[])
+    },[state])
     return(
 <>
 <div className={style.Card} {...props}>

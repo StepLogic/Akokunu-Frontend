@@ -8,15 +8,6 @@ import MediaQuery from "react-responsive/src";
 
 const GraphCard = (props) => {
 
-    const [x,setX] = useState([0])
-    const [humidity,setHumidity] = useState([0])
-    const [temperature,setTemperature] = useState([0])
-
-
-    useEffect(()=>{    setX(props.time);
-                             setHumidity(props.humidity);
-                             setTemperature(props.temperature);
-                             console.log(x,humidity,temperature)},[])
     return(
     <div {...props}>
 
@@ -25,15 +16,15 @@ const GraphCard = (props) => {
             matches ? <Plot
                 data={[
                     {
-                        x: x,
-                        y: temperature,
+                        x:props.time,
+                        y: props.temperature,
                         type: 'scatter',
                         name:"Temperature",
                         marker: {color: 'red'},
                     },
                     {
-                        x: x,
-                        y: humidity,
+                        x: props.x,
+                        y: props.humidity,
                         type: 'scatter',
                         name:"Humidity",
                         marker: {color: 'green'},
@@ -45,15 +36,15 @@ const GraphCard = (props) => {
             />: <Plot
                 data={[
                     {
-                        x: x,
-                        y: temperature,
+                        x: props.x,
+                        y: props.temperature,
                         type: 'scatter',
                         name:"Temperature",
                         marker: {color: 'red'},
                     },
                     {
-                        x: x,
-                        y: humidity,
+                        x: props.x,
+                        y: props.humidity,
                         type: 'scatter',
                         name:"Humidity",
                         marker: {color: 'green'},
