@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import style from "./index.module.css";
 import useSWR from "swr";
-import { useLocation, useParams } from "react-router";
+import { useLocation, useParams ,useHistory} from "react-router";
 import SensorCard from "../../components/sensorCard";
 import { Link } from "react-router-dom";
 import SensorModal from "../../components/sensorModal";
@@ -11,7 +11,8 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 const RoomPage = () => {
   const { handle } = useParams();
   const location = useLocation();
-  const { name } = location.state;
+    let history = useHistory();
+    const { name } = location.state?location.state:history.push("/")
   const [sensors,setSensors] = useState([{identity:"SensorTest"}]);
     useEffect(()=>{
         const body={
