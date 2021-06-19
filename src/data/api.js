@@ -1,0 +1,5 @@
+export const sensor_api_getSensorData="http://localhost:8080/api/get-sensor-data"
+export const sensor_api_getSensorDataAll="http://localhost:8080/api/get-sensor-data-all"
+export const   room_api_getAll="http://localhost:8080/api/roomAll"
+export const   room_api_getSensors="http://localhost:8080/api/room-sensors"
+export const room_api_getAverageTemperature="http://localhost:8080/api/average-of-room"

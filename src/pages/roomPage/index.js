@@ -5,17 +5,20 @@ import { useLocation, useParams } from "react-router";
 import SensorCard from "../../components/sensorCard";
 import { Link } from "react-router-dom";
 import SensorModal from "../../components/sensorModal";
+import axios from "axios";
+import {room_api_getAll, room_api_getSensors} from "../../data/api";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 const RoomPage = () => {
   const { handle } = useParams();
   const location = useLocation();
   const { name } = location.state;
-  const sensors = [
-    { identity: "SensorOne" },
-    { identity: "SensorTwo" },
-    { identity: "SensorThree" },
-    
-  ];
+  const [sensors,setSensors] = useState([]);
+    useEffect(()=>{
+        const body={
+            name:name
+        };
+        axios.post(room_api_getSensors, body).then(res=>setSensors(res.data.sensors));
+    },[])
   const [show, setShow] = useState(false);
   return (
     <div>
@@ -27,7 +30,8 @@ const RoomPage = () => {
       </div>
 
       <div className={style.dashboardWrapper}>
-        {sensors.map((sensor) => {
+
+        {sensors?sensors.map((sensor) => {
           return (
             <Link
               to={{
@@ -40,7 +44,7 @@ const RoomPage = () => {
               <SensorCard identity={sensor.identity} />
             </Link>
           );
-        })}
+        }):<div>Loading</div>}
       </div>
     </div>
   );

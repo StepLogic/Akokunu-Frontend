@@ -4,17 +4,14 @@ import useSWR from "swr";
 import RoomCard from "../../components/roomCard";
 import { Link } from "react-router-dom";
 import RoomModal from "../../components/roomModal";
+import axios from "axios";
+import {room_api_getAll} from "../../data/api";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 const Dashboard = () => {
-  const data = [
-    { name: "RoomOne" },
-    { name: "RoomTwo" },
-    { name: "RoomTwo" },
-    { name: "RoomTwo" },
-    { name: "RoomTwo" },
-    { name: "RoomTwo" },
-    { name: "RoomTwo" },
-  ];
+  const [data,setData]=useState([]);
+  useEffect(()=>{
+      axios.get(room_api_getAll).then(res=>setData(res.data));
+  },[])
   const [show, setShow] = useState(false);
   return (
     <div>

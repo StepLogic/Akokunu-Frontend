@@ -1,28 +1,72 @@
-import React from 'react'
-import { Chart } from 'react-charts'
+import {Line} from "react-chartjs-2";
+import {useEffect, useState} from "react";
+import {sensor_api_getSensorDataAll} from "../../data/api";
+import Plot from 'react-plotly.js';
+import axios from "axios";
+import MediaQuery from "react-responsive/src";
 
-export default function GraphCard (props) {
-  const data =[{
-        label: 'Series 2',
-        data: [[0, 3], [1, 1], [2, 5], [3, 6], [4, 4]]
-      }]
- 
-  const axes = React.useMemo(
-    () => [
-      { primary: true, type: 'linear', position: 'bottom' },
-      { type: 'linear', position: 'left' }
-    ],
-    []
-  )
- 
-  return (
-    <>    <div style={{
-      width: '400px',
-      height: '300px'
-    }}
-  >
-        <Chart data={data} axes={axes} />
-        </div>
-    </>
-  )
-}
+
+const GraphCard = (props) => {
+
+    const [x,setX] = useState([0])
+    const [humidity,setHumidity] = useState([0])
+    const [temperature,setTemperature] = useState([0])
+
+
+    useEffect(()=>{    setX(props.time);
+                             setHumidity(props.humidity);
+                             setTemperature(props.temperature);
+                             console.log(x,humidity,temperature)},[])
+    return(
+    <div {...props}>
+
+        <MediaQuery minDeviceWidth={460}>
+            {(matches) =>
+            matches ? <Plot
+                data={[
+                    {
+                        x: x,
+                        y: temperature,
+                        type: 'scatter',
+                        name:"Temperature",
+                        marker: {color: 'red'},
+                    },
+                    {
+                        x: x,
+                        y: humidity,
+                        type: 'scatter',
+                        name:"Humidity",
+                        marker: {color: 'green'},
+                    }
+
+                ]}
+                layout={ {width:500, height: 400}}
+
+            />: <Plot
+                data={[
+                    {
+                        x: x,
+                        y: temperature,
+                        type: 'scatter',
+                        name:"Temperature",
+                        marker: {color: 'red'},
+                    },
+                    {
+                        x: x,
+                        y: humidity,
+                        type: 'scatter',
+                        name:"Humidity",
+                        marker: {color: 'green'},
+                    }
+
+                ]}
+                layout={ {width:300, height: 200}}
+
+            />
+        }
+        </MediaQuery>
+
+    </div>);
+};
+
+export default GraphCard;

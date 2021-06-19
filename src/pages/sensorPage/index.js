@@ -1,16 +1,50 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import style from "./index.module.css";
 import GaugeChart from "react-gauge-chart";
-import { useLocation, useParams } from "react-router";
+import { useLocation, useParams,useHistory } from "react-router";
 import {data} from "../../data/test";
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import GraphCard from "../../components/graphCard"
+import axios from "axios";
+import {room_api_getSensors, sensor_api_getSensorData, sensor_api_getSensorDataAll} from "../../data/api";
 export default function SensorPage(){
   const { handle } = useParams();
   const location = useLocation() ;
-  const { identity } = location.state
-    const[state,setState]=useState({humidity:0,temperature:0});
-    let table;
+    let history = useHistory();
+    const { identity } = location.state?location.state:history.push("/")
+    let current_date="";
+    let  date_info;
+    let  minutes;
+    let  time;
+    let humidity = [];
+    let temperature = [];
+    let time_arr = [];
+    const [data,setData] = useState([])
+
+    useEffect(()=>{
+        const body={
+            identity:identity
+        };
+        axios.post(sensor_api_getSensorDataAll, body).then(res=>setData(res.data));
+
+    },[])
+    const handler=(reading)=>{
+        var date= new Date(reading.timestamp);
+        time=date.getMinutes();
+        minutes=date.getMinutes()+date.getHours()*60
+        time_arr.push(minutes)
+        humidity.push(reading.humidity)
+        temperature.push(reading.temperature)
+        if (current_date===date.getDate().toString()){
+
+        }
+        else {
+            date_info=date.getDay()+"-"+date.toLocaleString('default', { month: 'long' })+"-"+date.getFullYear()
+            current_date=date.getDate().toString()
+        }
+     return date_info
+
+    }
     return(
 <>
 <div className={"container-fluid"}>
@@ -22,35 +56,64 @@ export default function SensorPage(){
                     filename="tablexls"
                     sheet="tablexls"
                     buttonText="Download as XLS"/> 
-         </div>   
+         </div>
+
   <div className={"row"}>
     <div className={"col-lg-6"}>
-                <table class={"table"} id="table-to-xls">
+        <div className={style.tableContainer}>
+                <table className={"table"} style={{overflow:"auto"}} id="table-to-xls">
+                    <thead>
                     <tr>
+                        <th scope="col">Date</th>
                         <th scope="col">Time</th>
                         <th scope="col">Temperature</th>
                         <th scope="col">Humidity</th>
                     </tr>
-                   {data.map((reading,i)=>{return(
-                   <tr key={"reading_"+i}>
-                        <td>{i}</td>
-                        <td>{reading.temperature}</td>  
-                        <td>{reading.humudity}</td>
-                    </tr>);})}
+                    </thead>
+                    <tbody>
+                   {data?data.map((reading,i)=>{
+                       handler(reading);
+                       let row;
+                       if ((minutes % 10)===0){
+                           row= <tr key={"reading_"+i}>
+                               <td>{date_info}</td>
+                               <td>{minutes}</td>
+                               <td>{reading.temperature}</td>
+                               <td>{reading.humidity}</td>
+                           </tr>
+                       }
+                       return row;}):<div>Loading</div>}
+                    </tbody>
                 </table>
+        </div>
       </div>
       <div className={"col-lg-6"}>
-        <GraphCard/>
-      <GaugeChart
-          id="gauge-chart5"
-          nrOfLevels={50}
-          arcsLength={[0.3, 0.5, 0.2]}
-          colors={["#5BE12C", "#F5CD19", "#EA4228"]}
-          percent={0.37}
-          arcPadding={0.02}
-        />
+        <GraphCard className={style.graphContainer} time={time_arr} humidity={humidity} temperature={temperature}/>
+<div style={{backgroundColor:"black"}}>
+</div>
       </div>
   </div>
+
+    <div className={"d-flex flex-row justify-content-center "+style.gaugeContainer}>
+        <GaugeChart
+            id="gauge-chart5"
+            nrOfLevels={50}
+            arcsLength={[0.3, 0.5, 0.2]}
+            colors={["#5BE12C", "#F5CD19", "#EA4228"]}
+            percent={data[0]?data[0].humidity/100:0}
+            arcPadding={0.02}
+        />
+        <GaugeChart
+            id="gauge-chart5"
+            nrOfLevels={50}
+            arcsLength={[0.3, 0.5, 0.2]}
+            colors={["#5BE12C", "#F5CD19", "#EA4228"]}
+            percent={data[0]?data[0].humidity/100:0}
+            arcPadding={0.02}
+
+        />
+    </div>
+
 </div>
 </>
     );
