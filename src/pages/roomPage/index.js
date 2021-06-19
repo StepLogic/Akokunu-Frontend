@@ -12,7 +12,7 @@ const RoomPage = () => {
   const { handle } = useParams();
   const location = useLocation();
   const { name } = location.state;
-  const [sensors,setSensors] = useState([]);
+  const [sensors,setSensors] = useState([{identity:"SensorTest"}]);
     useEffect(()=>{
         const body={
             name:name

@@ -8,7 +8,9 @@ import axios from "axios";
 import {room_api_getAll} from "../../data/api";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 const Dashboard = () => {
-  const [data,setData]=useState([]);
+  const [data,setData]=useState([{
+      roomName:"RoomTest"
+  }]);
   useEffect(()=>{
       axios.get(room_api_getAll).then(res=>setData(res.data));
   },[])

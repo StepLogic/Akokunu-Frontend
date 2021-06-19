@@ -19,14 +19,17 @@ export default function SensorPage(){
     let humidity = [];
     let temperature = [];
     let time_arr = [];
-    const [data,setData] = useState([])
+    const [data,setData] = useState([{humidity:0,temperature:0,timestamp:"2021-05-31T12:16:59.020Z"}])
 
     useEffect(()=>{
-        const body={
-            identity:identity
-        };
-        axios.post(sensor_api_getSensorDataAll, body).then(res=>setData(res.data));
-
+        try {
+            const body = {
+                identity: identity
+            };
+            axios.post(sensor_api_getSensorDataAll, body).then(res => setData(res.data));
+        }catch (e){
+            alert("Backend Unavailable Contact Admin")
+        }
     },[])
     const handler=(reading)=>{
         var date= new Date(reading.timestamp);
