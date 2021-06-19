@@ -50,7 +50,7 @@
     width: 100%;
     margin-top: 1vmin;
     margin-bottom: 1vmin;
-    justify-content: none;
+
   }
   .menuBar {
     margin-top: 1vmin;
@@ -61,7 +61,7 @@
   .customBtn {
     margin-right: 2em !important;
     padding: 0.5em;
-    border: 0px solid transparent;
+    border: 0 solid transparent;
     border-radius: 0.5em;
     background-color: #3963a0;
     color: white;

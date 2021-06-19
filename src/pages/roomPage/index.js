@@ -6,13 +6,21 @@ import SensorCard from "../../components/sensorCard";
 import { Link } from "react-router-dom";
 import SensorModal from "../../components/sensorModal";
 import axios from "axios";
-import {room_api_getAll, room_api_getSensors} from "../../data/api";
-const fetcher = (url) => fetch(url).then((res) => res.json());
+import {room_api_deleteRoom, room_api_getAll, room_api_getSensors} from "../../data/api";
+
 const RoomPage = () => {
-    const { handle } = useParams();
+
     const location = useLocation();
-    let history = useHistory();
     const {name} = location.state===undefined||null? {name:null} :location.state;
+
+    const deleteRoom=()=>{
+        const body={
+            name: name
+        }
+        axios.post(room_api_deleteRoom,body).then(res=> {
+            setUpdate(!update);
+        }).catch(res=>{console.log(res)})
+    }
   const [sensors,setSensors] = useState([{identity:"SensorTest"}]);
     useEffect(()=>{
 
@@ -34,13 +42,18 @@ const RoomPage = () => {
         }
     },[])
   const [show, setShow] = useState(false);
+    const [update, setUpdate] = useState(false);
   return (
     <div>
-      <SensorModal show={show} onHide={() => setShow(false)} />
+      <SensorModal parent={setUpdate} roomName={name} show={show} onHide={() => setShow(false)} />
       <div className={style.menuContainer}>
         <button className={style.customBtn} onClick={() => setShow(true)}>
           Add Sensor
         </button>
+          <button className={style.customBtn} onClick={deleteRoom}>
+              Delete Room
+          </button>
+
       </div>
 
       <div className={style.dashboardWrapper}>

@@ -1,34 +1,44 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import style from "./index.module.css";
 import GaugeChart from "react-gauge-chart";
-import { useLocation, useParams,useHistory } from "react-router";
-import {data} from "../../data/test";
+import { useLocation } from "react-router";
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import GraphCard from "../../components/graphCard"
 import axios from "axios";
-import {sensor_api_getSensorDataAll} from "../../data/api";
-import {trigger} from "swr";
+import {room_api_deleteRoom, sensor_api_deleteSensor, sensor_api_getSensorDataAll} from "../../data/api";
 export default function SensorPage(){
-  const { handle } = useParams();
   const location = useLocation() ;
-    let history = useHistory();
+
     const {identity}  = location.state===undefined||null? {identity:null} : location.state;
     let current_date="none";
-    let count=0;
+
     let  date_info;
     let  minutes;
-    let  time;
+
     let humidity = [];
     let temperature = [];
     let time_arr = [];
+
     const [data,setData] = useState([{humidity:0,temperature:0,timestamp:"2021-05-31T12:16:59.020Z"}])
     const  [toggle,setToggle]=useState(false);
+
+
+    const deleteSensor=()=>{
+        const body={
+            identity: identity
+        }
+        axios.post(sensor_api_deleteSensor,body).then(res=> {
+
+        }).catch(res=>{console.log(res)})
+    }
+
+
     useEffect(()=>{
         try {
             if(typeof identity===undefined||null){
                 setData(JSON.parse(window.localStorage.getItem("sensors-data"))?JSON.parse(window.localStorage.getItem("sensors")):[{humidity:0,temperature:0,timestamp:"2021-05-31T12:16:59.020Z"}]);
             }else{
-                console.log("SensorData")
+
                 const body = {
                     identity: identity
                 };
@@ -36,13 +46,14 @@ export default function SensorPage(){
                     setData(res.data);
                     window.sessionStorage.setItem("sensor-data", JSON.stringify(res.data))
                 }).catch(res=>{console.log(res)});
+
             }
         }catch (e){
             alert("Backend Unavailable Contact Admin")
         }
         const intervalID = setTimeout(() =>  {
             setToggle((toggle) => !toggle)
-        }, 3000);
+        }, 5000);
 
         return () => clearInterval(intervalID);
     },[])
@@ -52,6 +63,7 @@ export default function SensorPage(){
         let date= new Date(reading.timestamp);
         minutes=date.getMinutes()+date.getHours()*60
     }
+
     const handler=(reading)=>{
         let date= new Date(reading.timestamp);
         time_arr.push(minutes);
@@ -67,6 +79,9 @@ export default function SensorPage(){
      return date_info;
 
     }
+
+
+
     return(
 <>
 <div className={"container-fluid"}>
@@ -77,7 +92,10 @@ export default function SensorPage(){
                     table="table-to-xls"
                     filename="tablexls"
                     sheet="tablexls"
-                    buttonText="Download as XLS"/> 
+                    buttonText="Download as XLS"/>
+    <button className={style.customBtn} onClick={deleteSensor}>
+        Delete Sensor
+    </button>
          </div>
 
   <div className={"row"}>
@@ -98,6 +116,7 @@ export default function SensorPage(){
                        let row;
                        if ((minutes % 10)===0){
                            handler(reading)
+                           console.log("SensorData")
                            row= <tr key={"reading_"+i}>
                                <td>{date_info}</td>
                                <td>{minutes}</td>

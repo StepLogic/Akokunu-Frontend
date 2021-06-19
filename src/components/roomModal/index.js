@@ -1,13 +1,21 @@
-import style from "./index.module.css";
+
 import {Button, Modal} from "react-bootstrap";
 import axios from "axios"
+import {room_api_deleteRoom, room_api_postNewRoom} from "../../data/api";
 export default function RoomModal(props) {
     
     let roomName="";
     const handleRoomNameChange=(event)=>{roomName=event.target.value}
-    const handleSubmit=(event)=>{
+    const handleSubmit=()=>{
       if(roomName===""){
+
       }else{
+          const body={
+              name:roomName
+          }
+          axios.post(room_api_postNewRoom,body).then(res=> {
+
+          }).catch(res=>{console.log(res)})
        props.onHide();
       }
 
