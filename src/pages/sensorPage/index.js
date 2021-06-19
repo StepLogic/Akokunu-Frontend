@@ -13,16 +13,16 @@ export default function SensorPage(){
   const location = useLocation() ;
     let history = useHistory();
     const {identity}  = location.state===undefined||null? {identity:null} : location.state;
-    let current_date="";
+    let current_date="none";
+    let count=0;
     let  date_info;
     let  minutes;
     let  time;
     let humidity = [];
     let temperature = [];
     let time_arr = [];
-    let trigger=[]
     const [data,setData] = useState([{humidity:0,temperature:0,timestamp:"2021-05-31T12:16:59.020Z"}])
-
+    const  [toggle,setToggle]=useState(false);
     useEffect(()=>{
         try {
             if(typeof identity===undefined||null){
@@ -40,24 +40,31 @@ export default function SensorPage(){
         }catch (e){
             alert("Backend Unavailable Contact Admin")
         }
+        const intervalID = setTimeout(() =>  {
+            setToggle((toggle) => !toggle)
+        }, 3000);
+
+        return () => clearInterval(intervalID);
     },[])
 
 
-    const handler=(reading)=>{
-        var date= new Date(reading.timestamp);
-        time=date.getMinutes();
+    const getMinutes=(reading)=>{
+        let date= new Date(reading.timestamp);
         minutes=date.getMinutes()+date.getHours()*60
-        time_arr.push(minutes)
-        humidity.push(reading.humidity)
-        temperature.push(reading.temperature)
-        if (current_date===date.getDate().toString()){
-
+    }
+    const handler=(reading)=>{
+        let date= new Date(reading.timestamp);
+        time_arr.push(minutes);
+        humidity.push(reading.humidity);
+        temperature.push(reading.temperature);
+        date_info=date.getDay()+"-"+date.toLocaleString('default', { month: 'long' })+"-"+date.getFullYear();
+        if (current_date===date_info){
+            date_info="";
         }
         else {
-            date_info=date.getDay()+"-"+date.toLocaleString('default', { month: 'long' })+"-"+date.getFullYear()
-            current_date=date.getDate().toString()
+            current_date=date_info;
         }
-     return date_info
+     return date_info;
 
     }
     return(
@@ -87,9 +94,10 @@ export default function SensorPage(){
                     </thead>
                     <tbody>
                    {data?data.map((reading,i)=>{
-                       handler(reading);
+                       getMinutes(reading);
                        let row;
-                       if ((minutes % 1)===0){
+                       if ((minutes % 10)===0){
+                           handler(reading)
                            row= <tr key={"reading_"+i}>
                                <td>{date_info}</td>
                                <td>{minutes}</td>
@@ -113,21 +121,24 @@ export default function SensorPage(){
 
     <div className={"d-flex flex-row justify-content-center "+style.gaugeContainer}>
         <GaugeChart
-            id="gauge-chart5"
+            id="gauge-chart-1"
             nrOfLevels={50}
+            textColor={"#000000"}
             arcsLength={[0.3, 0.5, 0.2]}
             colors={["#5BE12C", "#F5CD19", "#EA4228"]}
-            percent={data[0]?data[0].humidity/100:0}
+            percent={temperature[0]/45}
             arcPadding={0.02}
+            style={{height:10}}
         />
         <GaugeChart
-            id="gauge-chart5"
+            id="gauge-chart-2"
             nrOfLevels={50}
             arcsLength={[0.3, 0.5, 0.2]}
+            textColor={"#000000"}
             colors={["#5BE12C", "#F5CD19", "#EA4228"]}
-            percent={data[0]?data[0].humidity/100:0}
+            percent={humidity[0]/100}
             arcPadding={0.02}
-
+            style={{height:10}}
         />
     </div>
 

@@ -16,18 +16,28 @@ const GraphCard = (props) => {
             matches ? <Plot
                 data={[
                     {
-                        x:props.time,
+                        x: props.time,
                         y: props.temperature,
                         type: 'scatter',
                         name:"Temperature",
-                        marker: {color: 'red'},
+                        mode: 'lines+markers',
+                        marker: {
+                            color: 'green',
+                            size: 5,
+
+                        },
                     },
                     {
-                        x: props.x,
+                        x: props.time,
                         y: props.humidity,
                         type: 'scatter',
                         name:"Humidity",
-                        marker: {color: 'green'},
+                        mode: 'lines+markers',
+                        marker: {
+                            color: 'red',
+                            size: 5,
+
+                        },
                     }
 
                 ]}
@@ -36,20 +46,21 @@ const GraphCard = (props) => {
             />: <Plot
                 data={[
                     {
-                        x: props.x,
+                        x: props.time,
                         y: props.temperature,
                         type: 'scatter',
                         name:"Temperature",
+                        mode: 'lines+markers',
                         marker: {color: 'red'},
                     },
                     {
-                        x: props.x,
+                        x: props.time,
                         y: props.humidity,
                         type: 'scatter',
                         name:"Humidity",
+                        mode: 'lines+markers',
                         marker: {color: 'green'},
                     }
-
                 ]}
                 layout={ {width:300, height: 200}}
 
