@@ -6,10 +6,11 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import GraphCard from "../../components/graphCard"
 import axios from "axios";
 import {sensor_api_deleteSensor, sensor_api_getSensorDataAll} from "../../data/api";
+
 export default function SensorPage(){
   const location = useLocation() ;
 
-    const {identity,name}  = location.state===undefined||null? {identity:null,name:null} : location.state;
+    const {identity}  = location.state===undefined||null? {identity:null,name:null} : location.state;
     let current_date="none";
 
     let  date_info;
@@ -27,9 +28,9 @@ export default function SensorPage(){
         const body={
             identity: identity
         }
-        axios.post(sensor_api_deleteSensor,body).then(res=> {
+        axios.post(sensor_api_deleteSensor,body).then(()=> {
             history.goBack()
-        }).catch(res=>{console.log(res)})
+        }).catch(res=>{console.log(res,toggle)})
     }
 
 
@@ -79,15 +80,15 @@ export default function SensorPage(){
 
     const getMinutes=(reading)=>{
         let date= new Date(reading.timestamp);
-        minutes=date.getMinutes()+date.getHours()*60
+        minutes=date.getMinutes()
+        return ""+date.getUTCHours()+":"+date.getUTCMinutes()
     }
 
     const handler=(reading)=>{
         let date= new Date(reading.timestamp);
-        time_arr.push(minutes);
         humidity.push(reading.humidity);
         temperature.push(reading.temperature);
-        date_info=date.getDay()+"-"+date.toLocaleString('default', { month: 'long' })+"-"+date.getFullYear();
+        date_info=date.getDate()+"-"+date.toLocaleString('default', { month: 'long' })+"-"+date.getFullYear();
         if (current_date===date_info){
             date_info="";
         }
@@ -107,9 +108,9 @@ export default function SensorPage(){
        <ReactHTMLTableToExcel
                     id="test-table-xls-button"
                     className={"btn btn-primary "+style.excelDownloadButton}
-                    table="table-to-xls"
-                    filename="tablexls"
-                    sheet="tablexls"
+                    table={"table-to-xls-"+identity}
+                    filename={identity}
+                    sheet={identity}
                     buttonText="Download as XLS"/>
 
         <button className={style.customBtn} onClick={deleteSensor}>
@@ -122,7 +123,7 @@ export default function SensorPage(){
   <div className={"row"}>
     <div className={"col-lg-6"}>
         <div className={style.tableContainer}>
-                <table className={"table"} style={{overflow:"auto"}} id="table-to-xls">
+                <table className={"table"} style={{overflow:"auto"}} id={"table-to-xls-"+identity}>
                     <thead>
                     <tr>
                         <th scope="col">Date</th>
@@ -133,14 +134,14 @@ export default function SensorPage(){
                     </thead>
                     <tbody>
                    {data?data.map((reading,i)=>{
-                       getMinutes(reading);
+                       let time=getMinutes(reading);
                        let row;
                        if ((minutes % 1)===0){
                            handler(reading)
-                           console.log("SensorData")
+                           time_arr.push(time);
                            row= <tr key={"reading_"+i}>
                                <td>{date_info}</td>
-                               <td>{minutes}</td>
+                               <td>{time}</td>
                                <td>{reading.temperature}</td>
                                <td>{reading.humidity}</td>
                            </tr>
