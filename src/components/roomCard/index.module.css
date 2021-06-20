@@ -13,6 +13,9 @@
 
 .dataCard:hover {
   transform: scale(1.2);
+  text-decoration: none !important;
+
+
 }
 .icon {
   justify-content: center;
@@ -23,16 +26,16 @@
   margin-left: auto;
   margin-right: auto;
   border-radius: 10vmin;
-  background-color: #3963a0;
-}
+  background-color: black;}
 .info {
   width: fit-content;
   height: fit-content;
   margin-left: auto;
   margin-right: auto;
   margin-top: 5vmin;
-  color: #1e3250;
+  color: black;
   font-size: 2em;
+  text-decoration: none !important;
   font-weight: lighter;
 }
 @media only screen and (min-width: 460px) {
@@ -51,6 +54,7 @@
 
   .dataCard:hover {
     transform: scale(1.2);
+    text-decoration: none !important;
   }
   .icon {
     justify-content: center;
@@ -61,15 +65,17 @@
     margin-left: auto;
     margin-right: auto;
     border-radius: 10vmin;
-    background-color: #3963a0;
+    background-color: black;
   }
+
   .info {
     width: fit-content;
     height: fit-content;
     margin-left: auto;
     margin-right: auto;
     margin-top: 5vmin;
-    color: #1e3250;
+    color: black;
+    text-decoration: none !important;
     font-size: 2em;
     font-weight: lighter;
   }

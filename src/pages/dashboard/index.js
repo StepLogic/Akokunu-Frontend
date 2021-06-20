@@ -41,7 +41,7 @@ const Dashboard = () => {
       <div className={style.dashboardWrapper}>
         {data.map((room) => {
             return (
-              <Link
+              <Link className='mylink'
                 to={{
                   pathname: "/room-data",
                   state: {

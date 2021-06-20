@@ -1,25 +1,71 @@
-.excelDownloadButton{
-  margin-top: 0.5vmin;
+.excelDownloadButton {
+  margin-top: 1vmin;
   margin-right: 1vmin;
 }
 
-.gaugeContainer{
-height: 2vmin;
+.mySensorContainer {
+}
+.menuContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-top: 1vmin;
+  margin-bottom: 1vmin;
+  justify-content: center;
+}
+.menuBar {
+  margin-top: 1vmin;
+  margin-bottom: 1vmin;
+  margin-right: 2vmin;
+}
 
+.customBtn {
+  padding: 0.5em;
+  width: 75%;
+  margin-top: 1em;
+  border: 0px solid transparent;
+  border-radius: 0.5em;
+  background-color: black;
+  color: white;
 }
-.graphContainer{
-  width: 100%;
-  height: 40vmin;
+
+.customBtn:active {
+  background-color: transparent;
+  border: 2px solid black;
+  color: black;
 }
-.tableContainer{
-  width: 100%;
-  height: 30vmax;
-  overflow-y: auto;
-}
+
 @media only screen and (min-width: 460px) {
+  .mySensorContainer {
+    display: table-cell;
+  }
+  .menuContainer {
+    width: 100%;
+    margin-top: 1vmin;
+    margin-bottom: 1vmin;
+    justify-content: right;
+  }
 
-.mySensorContainer{
-  display: table-cell;
-}
+  .menuBar {
+    margin-top: 1vmin;
+    margin-bottom: 1vmin;
+    margin-right: 2vmin;
+  }
 
+  .customBtn {
+    margin-right: 2em !important;
+    padding: 0.5em;
+    width: fit-content;
+    border: 0px solid transparent;
+    border-radius: 0.5em;
+    background-color: black;
+    color: white;
+    transition: 200ms;
+  }
+
+  .customBtn:hover {
+    background-color: transparent;
+    border: 2px solid black;
+    color: black;
+  }
 }

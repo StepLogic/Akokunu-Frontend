@@ -2,9 +2,8 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 100vw;
   padding: 0px;
-  justify-content: space-evenly;
+  justify-content: center;
 }
 
 .menuContainer {
@@ -13,7 +12,6 @@
   width: 100%;
   margin-top: 1vmin;
   margin-bottom: 1vmin;
-  margin-right: 2vmin;
   justify-content: center;
 }
 .menuBar {
@@ -23,12 +21,12 @@
 }
 
 .customBtn {
-  margin-right: 2em !important;
   padding: 0.5em;
+  width: 75%;
   margin-top: 1em;
   border: 0px solid transparent;
   border-radius: 0.5em;
-  background-color: #3963a0;
+  background-color: black;
   color: white;
 }
 
@@ -45,7 +43,7 @@
     flex-wrap: wrap;
     width: 100%;
     padding: 0px;
-    justify-content: space-around;
+    justify-content: left;
   }
 
   .menuContainer {
@@ -54,7 +52,7 @@
     width: 100%;
     margin-top: 1vmin;
     margin-bottom: 1vmin;
-    justify-content: space-around;
+    justify-content: flex-start;
   }
   .menuBar {
     margin-top: 1vmin;
@@ -65,10 +63,13 @@
   .customBtn {
     margin-right: 2em !important;
     padding: 0.5em;
+    width: fit-content;
     border: 0px solid transparent;
     border-radius: 0.5em;
-    background-color: #3963a0;
+    background-color: black;
     color: white;
+    transition: 200ms;
+
   }
 
   .customBtn:hover {

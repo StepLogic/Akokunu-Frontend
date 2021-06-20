@@ -34,6 +34,14 @@ a {
     display: table-cell;
   }
 
+  .mylink {
+    text-decoration: none;
+  }
+
+  .mylink:hover {
+    text-decoration: none;
+  }
+
   .main-view {
     width: auto;
     padding: 2em;
