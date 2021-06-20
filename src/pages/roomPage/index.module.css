@@ -2,10 +2,8 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 100vw;
   padding: 0px;
-  justify-content: space-evenly;
-  text-decoration: none !important;
+  justify-content: center;
 }
 
 .menuContainer {
@@ -14,7 +12,6 @@
   width: 100%;
   margin-top: 1vmin;
   margin-bottom: 1vmin;
-  margin-right: 2vmin;
   justify-content: center;
 }
 .menuBar {
@@ -24,8 +21,8 @@
 }
 
 .customBtn {
-  margin-right: 2em !important;
   padding: 0.5em;
+  width: 75%;
   margin-top: 1em;
   border: 0px solid transparent;
   border-radius: 0.5em;
@@ -55,7 +52,7 @@
     width: 100%;
     margin-top: 1vmin;
     margin-bottom: 1vmin;
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
   .menuBar {
     margin-top: 1vmin;
@@ -66,10 +63,13 @@
   .customBtn {
     margin-right: 2em !important;
     padding: 0.5em;
+    width: fit-content;
     border: 0px solid transparent;
     border-radius: 0.5em;
     background-color: black;
     color: white;
+    transition: 200ms;
+
   }
 
   .customBtn:hover {

@@ -36,8 +36,8 @@ hr {
 }
 
 .menuItemWrapper:hover {
-  background-color: black;
-  color: white !important;
+  background-color: white;
+  color: black!important;
   font-weight: 700;
   text-decoration: none !important;
 }
@@ -46,7 +46,7 @@ hr {
   font-size: 1.5em;
   margin-right: 0.5em;
   margin-bottom: 0.1em;
-  color: #3963a0;
+  color: black;
 }
 
 .signout {
@@ -70,6 +70,7 @@ font-family: "Open Sans", sans-serif;
 height: 100%;
 overflow: hidden;
 }
+
 hr {
 margin: 0px;
 }
@@ -93,7 +94,7 @@ transition: 100ms;
 }
 
 .menuItemWrapper:hover {
-background-color: black;
+background-color:black;
 color: white !important;
 font-weight: 700;
 text-decoration: none !important;
@@ -103,7 +104,7 @@ text-decoration: none !important;
 font-size: 1.5em;
 margin-right: 0.5em;
 margin-bottom: 0.1em;
-color: #3963a0;
+color: black;
 }
 
 .signout {
