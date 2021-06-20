@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from "react";
 import style from "./index.module.css";
 import GaugeChart from "react-gauge-chart";
-import { useLocation } from "react-router";
+import {useHistory, useLocation} from "react-router";
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import GraphCard from "../../components/graphCard"
 import axios from "axios";
-import {room_api_deleteRoom, sensor_api_deleteSensor, sensor_api_getSensorDataAll} from "../../data/api";
+import {sensor_api_deleteSensor, sensor_api_getSensorDataAll} from "../../data/api";
 export default function SensorPage(){
   const location = useLocation() ;
 
-    const {identity}  = location.state===undefined||null? {identity:null} : location.state;
+    const {identity,name}  = location.state===undefined||null? {identity:null,name:null} : location.state;
     let current_date="none";
 
     let  date_info;
@@ -21,42 +21,60 @@ export default function SensorPage(){
 
     const [data,setData] = useState([{humidity:0,temperature:0,timestamp:"2021-05-31T12:16:59.020Z"}])
     const  [toggle,setToggle]=useState(false);
-
+    let history=useHistory();
 
     const deleteSensor=()=>{
         const body={
             identity: identity
         }
         axios.post(sensor_api_deleteSensor,body).then(res=> {
-
+            history.goBack()
         }).catch(res=>{console.log(res)})
     }
 
 
     useEffect(()=>{
-        try {
-            if(typeof identity===undefined||null){
-                setData(JSON.parse(window.localStorage.getItem("sensors-data"))?JSON.parse(window.localStorage.getItem("sensors")):[{humidity:0,temperature:0,timestamp:"2021-05-31T12:16:59.020Z"}]);
-            }else{
+        let isMounted=true;
+        if(isMounted) {
+            try {
+                if (typeof identity === undefined || null) {
 
-                const body = {
-                    identity: identity
-                };
-                axios.post(sensor_api_getSensorDataAll, body).then(res => {
-                    setData(res.data);
-                    window.sessionStorage.setItem("sensor-data", JSON.stringify(res.data))
-                }).catch(res=>{console.log(res)});
+                    setData(JSON.parse(window.localStorage.getItem("sensors-data")) ? JSON.parse(window.localStorage.getItem("sensors")) : [{
+                        humidity: 0,
+                        temperature: 0,
+                        timestamp: "2021-05-31T12:16:59.020Z"
+                    }]);
+                } else {
 
+                    const body = {
+                        identity: identity
+                    };
+
+                    axios.post(sensor_api_getSensorDataAll, body).then(res => {
+                        if (isMounted) {
+                            setData(res.data);
+                            window.sessionStorage.setItem("sensor-data", JSON.stringify(res.data))
+                        }
+                    }).catch(res => {
+                        console.log(res)
+                    });
+
+                }
+            } catch (e) {
+                alert("Backend Unavailable Contact Admin")
             }
-        }catch (e){
-            alert("Backend Unavailable Contact Admin")
         }
         const intervalID = setTimeout(() =>  {
-            setToggle((toggle) => !toggle)
-        }, 5000);
+            if(isMounted) {
+                setToggle((toggle) => !toggle)
+            }
+        }, 100);
 
-        return () => clearInterval(intervalID);
-    },[])
+        return () => {
+            clearInterval(intervalID);
+            isMounted=false;
+        }
+    },[identity])
 
 
     const getMinutes=(reading)=>{
@@ -93,9 +111,12 @@ export default function SensorPage(){
                     filename="tablexls"
                     sheet="tablexls"
                     buttonText="Download as XLS"/>
-    <button className={style.customBtn} onClick={deleteSensor}>
-        Delete Sensor
-    </button>
+
+        <button className={style.customBtn} onClick={deleteSensor}>
+            Delete Sensor
+        </button>
+
+
          </div>
 
   <div className={"row"}>
@@ -114,7 +135,7 @@ export default function SensorPage(){
                    {data?data.map((reading,i)=>{
                        getMinutes(reading);
                        let row;
-                       if ((minutes % 10)===0){
+                       if ((minutes % 1)===0){
                            handler(reading)
                            console.log("SensorData")
                            row= <tr key={"reading_"+i}>

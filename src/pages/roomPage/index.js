@@ -7,52 +7,59 @@ import { Link } from "react-router-dom";
 import SensorModal from "../../components/sensorModal";
 import axios from "axios";
 import {room_api_deleteRoom, room_api_getAll, room_api_getSensors} from "../../data/api";
-
+import UpdateContext from "../../data/context";
 const RoomPage = () => {
 
     const location = useLocation();
     const {name} = location.state===undefined||null? {name:null} :location.state;
+    let history=useHistory();
 
     const deleteRoom=()=>{
         const body={
             name: name
         }
         axios.post(room_api_deleteRoom,body).then(res=> {
-            setUpdate(!update);
+            history.push("/")
         }).catch(res=>{console.log(res)})
     }
-  const [sensors,setSensors] = useState([{identity:"SensorTest"}]);
+  const [sensors,setSensors] = useState([]);
     useEffect(()=>{
-
+        let isMounted=true;
         try {
             if(typeof name===undefined||null){
-                setSensors(JSON.parse(window.localStorage.getItem("sensors"))?JSON.parse(window.localStorage.getItem("sensors")):[{identity:"SensorTest"}]);
+                setSensors(JSON.parse(window.localStorage.getItem("sensors"))?JSON.parse(window.localStorage.getItem("sensors")):[]);
 
             }else{
                 const body = {
                     name: name
                 };
                 axios.post(room_api_getSensors, body).then(res => {
-                    setSensors(res.data.sensors)
-                    window.sessionStorage.setItem("sensors", JSON.stringify(res.data.sensors))
+                    if(isMounted) {
+                        setSensors(res.data.sensors)
+                        window.sessionStorage.setItem("sensors", JSON.stringify(res.data.sensors))
+                    }
                 }).catch(res=>{console.log(res)});
             }
         }catch (e){
             alert("Backend Unavailable Contact Developer")
         }
-    },[])
+      return () => { isMounted = false }
+    },[name])
   const [show, setShow] = useState(false);
     const [update, setUpdate] = useState(false);
   return (
     <div>
-      <SensorModal parent={setUpdate} roomName={name} show={show} onHide={() => setShow(false)} />
+      <SensorModal roomName={name} show={show} onHide={() => setShow(false)} />
       <div className={style.menuContainer}>
         <button className={style.customBtn} onClick={() => setShow(true)}>
           Add Sensor
         </button>
-          <button className={style.customBtn} onClick={deleteRoom}>
-              Delete Room
-          </button>
+
+              <button className={style.customBtn} onClick={deleteRoom}>
+                  Delete Room
+              </button>
+
+
 
       </div>
 
@@ -64,7 +71,7 @@ const RoomPage = () => {
               to={{
                 pathname: "/sensor-data",
                 state: {
-                  identity: sensor.identity,
+                  identity: sensor.identity, name:name
                 },
               }}
             >

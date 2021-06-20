@@ -6,18 +6,27 @@ import {sensor_api_getSensorData} from "../../data/api";
 export default function SensorCard(props){
 
     const [state,setState]=useState([]);
+    let oneLoad=false;
     useEffect(()=>{
-        const body={
-            identity:props.identity,
-            length:4
-        };
-        axios.post(sensor_api_getSensorData, body).then(res=> {
-
-            setState(res.data);
+        let isMounted=true;
+        let source = axios.CancelToken.source();
+        if(isMounted) {
+            const body = {
+                identity: props.identity,
+                length: 4
+            };
+            axios.post(sensor_api_getSensorData, body).then(res => {
+                    oneLoad=true;
+                    setState(res.data);
+                }
+            ).catch(res => {
+                console.log(res)
+            });
         }
-        ).catch(res=>{console.log(res)});
-
-    },[state])
+        return () => { isMounted = false;
+            source.cancel("Cancelling in cleanup");
+        };
+    },[oneLoad])
     return(
 <>
 <div className={style.Card} {...props}>

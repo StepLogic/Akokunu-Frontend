@@ -7,18 +7,21 @@ export default function RoomCard(props){
  
     const [state,setState]=useState({humidity:0,temperature:0});
     useEffect(()=>{
-
-            if (props.room===null)
-            {
-            }
-            else {
-                const body = {
-                    name: props.room
-                }
-                axios.post(room_api_getAverageTemperature, body).then(res => {
-                    setState(res.data)
-                }).catch(res=>{console.log(res)});
-            }
+          let isMounted=true;
+          if(isMounted){
+              if(props.room === null) {
+          } else {
+              const body = {
+                  name: props.room
+              }
+              axios.post(room_api_getAverageTemperature, body).then(res => {
+                  setState(res.data)
+              }).catch(res => {
+                  console.log(res)
+              });
+          }
+    }
+        return () => { isMounted = false };
     },[])
     return(
 <>
