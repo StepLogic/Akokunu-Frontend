@@ -28,7 +28,7 @@ const Dashboard = () => {
         {data ? (
           data.map((room) => {
             return (
-              <Link
+              <Link className='mylink'
                 to={{
                   pathname: "/room-data",
                   state: {

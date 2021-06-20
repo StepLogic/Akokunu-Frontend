@@ -3,7 +3,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   padding: 0px;
-  justify-content: space-evenly;
+  justify-content: left;
 }
 
 .menuContainer {
@@ -12,7 +12,7 @@
   width: 100%;
   margin-top: 1vmin;
   margin-bottom: 1vmin;
-  justify-content: space-around;
+  justify-content: flex-end;
 }
 
 .menuBar {
@@ -63,7 +63,7 @@
     padding: 0.5em;
     border: 0px solid transparent;
     border-radius: 0.5em;
-    background-color: #3963a0;
+    background-color: black;
     color: white;
   }
 

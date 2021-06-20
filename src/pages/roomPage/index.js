@@ -29,7 +29,7 @@ const RoomPage = () => {
       <div className={style.dashboardWrapper}>
         {sensors.map((sensor) => {
           return (
-            <Link
+            <Link className='mylink'
               to={{
                 pathname: "/sensor-data",
                 state: {
