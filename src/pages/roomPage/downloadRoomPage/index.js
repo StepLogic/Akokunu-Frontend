@@ -22,8 +22,8 @@ const DownloadRoomPage = () => {
                 };
                 axios.post(room_api_getSensors, body).then(res => {
                     if(isMounted) {
-                        setSensors(res.data.sensors)
-                        window.sessionStorage.setItem("sensors", JSON.stringify(res.data.sensors))
+                        setSensors(res.data)
+                        window.sessionStorage.setItem("sensors", JSON.stringify(res.data))
                     }
                 }).catch(res=>{console.log(res)});
             }

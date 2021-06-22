@@ -18,7 +18,7 @@ export default function DashboardSensorPage(){
     let temperature = [];
     let time_arr = [];
 
-    const [data,setData] = useState([{humidity:0,temperature:0,timestamp:"2021-05-31T12:16:59.020Z"}])
+    const [data,setData] = useState([{humidity:0,temperature:0,createdAt:"2021-05-31T12:16:59.020Z"}])
     const  [toggle,setToggle]=useState(false);
     let history=useHistory();
 
@@ -41,7 +41,7 @@ export default function DashboardSensorPage(){
                     setData(JSON.parse(window.localStorage.getItem("sensors-data")) ? JSON.parse(window.localStorage.getItem("sensors")) : [{
                         humidity: 0,
                         temperature: 0,
-                        timestamp: "2021-05-31T12:16:59.020Z"
+                        createdAt: "2021-05-31T12:16:59.020Z"
                     }]);
                 } else {
 
@@ -78,13 +78,13 @@ export default function DashboardSensorPage(){
 
 
     const getMinutes=(reading)=>{
-        let date= new Date(reading.timestamp);
+        let date= new Date(reading.createdAt);
         minutes=date.getMinutes()
         return ""+date.getUTCHours()+":"+date.getMinutes()
     }
 
     const handler=(reading)=>{
-        let date= new Date(reading.timestamp);
+        let date= new Date(reading.createdAt);
         humidity.push(reading.humidity);
         temperature.push(reading.temperature);
         date_info=date.getDate()+"-"+date.toLocaleString('default', { month: 'long' })+"-"+date.getFullYear();
