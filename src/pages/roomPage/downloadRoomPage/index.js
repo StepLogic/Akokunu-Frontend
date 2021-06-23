@@ -9,6 +9,19 @@ import { room_api_getSensors} from "../../../data/api";
 const DownloadRoomPage = () => {
     const location = useLocation();
     const {name} = location.state===undefined||null? {name:null} :location.state;
+    const  [toggle,setToggle]=useState(false);
+    useEffect(()=>{
+        let isMounted=true;
+        const intervalID = setTimeout(() =>  {
+            if(isMounted) {
+                setToggle((toggle) => !toggle)
+            }
+        }, 2000);
+
+        return () => {
+            clearInterval(intervalID);
+            isMounted=false;}
+    },[toggle])
      const [sensors,setSensors] = useState([]);
     useEffect(()=>{
         let isMounted=true;

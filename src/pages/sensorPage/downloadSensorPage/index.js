@@ -61,8 +61,20 @@ export default function DownloadSensorPage(){
             clearInterval(intervalID);
             isMounted=false;
         }
-    },[identity])
+    },[identity]);
 
+    useEffect(()=>{
+        let isMounted=true;
+        const intervalID = setTimeout(() =>  {
+            if(isMounted) {
+                setToggle((toggle) => !toggle)
+            }
+        }, 2000);
+
+        return () => {
+            clearInterval(intervalID);
+            isMounted=false;}
+    },[toggle])
 
     const getMinutes=(reading)=>{
         let date= new Date(reading.createdAt);

@@ -64,17 +64,23 @@ export default function DashboardSensorPage(){
                 alert("Backend Unavailable Contact Admin")
             }
         }
+
+        return () => {
+            isMounted=false;
+        }
+    },[identity])
+    useEffect(()=>{
+      let isMounted=true;
         const intervalID = setTimeout(() =>  {
             if(isMounted) {
                 setToggle((toggle) => !toggle)
             }
-        }, 100);
+        }, 2000);
 
         return () => {
             clearInterval(intervalID);
-            isMounted=false;
-        }
-    },[identity])
+         isMounted=false;}
+    },[toggle])
 
 
     const getMinutes=(reading)=>{
@@ -117,6 +123,7 @@ export default function DashboardSensorPage(){
 
                 <div className={"row"}>
                     <div className={"col-lg-12"}>
+                        {console.log("log",toggle)}
                         <GraphCard className={style.graphContainer} time={time_arr} humidity={humidity} temperature={temperature}/>
                     </div>
                 </div>
